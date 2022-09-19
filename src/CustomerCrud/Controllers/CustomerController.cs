@@ -20,4 +20,19 @@ public class CustomerController : ControllerBase
     {
         return Ok(_customerRepository?.GetAll());
     }
+
+    [HttpGet]
+    [Route("{id}")]
+
+    public ActionResult GetById(int id)
+    {
+        var DataCustomer = _customerRepository?.GetById(id);
+
+        if(DataCustomer == null)
+        {
+            return NotFound("Not fount");
+        }
+
+        return Ok(DataCustomer);
+    }
 }

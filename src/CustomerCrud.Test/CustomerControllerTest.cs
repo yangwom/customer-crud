@@ -37,7 +37,13 @@ public class CustomersControllerTest : IClassFixture<WebApplicationFactory<Progr
     [Fact]
     public async Task GetByIdTest()
     {
-        throw new NotImplementedException();
+        var customer = AutoFaker.Generate<Customer>(3);
+        _repositoryMock.Setup(c => c.GetById(1)).Returns(customer[0]);
+        var response = await _client.GetAsync("/controller/1");
+        var data = await response.Content.ReadFromJsonAsync<IEnumerable<Customer>>();
+        response.StatusCode.Should().Be(HttpStatusCode.OK);
+        data.Should().BeEquivalentTo(customer);
+
     }
 
     [Fact]
