@@ -25,7 +25,13 @@ public class CustomersControllerTest : IClassFixture<WebApplicationFactory<Progr
     [Fact]
     public async Task GetAllTest()
     {
-        throw new NotImplementedException();
+        var customer = AutoFaker.Generate<Customer>(3);
+        _repositoryMock.Setup(c => c.GetAll()).Returns(customer);
+
+        var response = await _client.GetAsync("/controller");
+        var data = await response.Content.ReadFromJsonAsync<IEnumerable<Customer>>();
+        response.StatusCode.Should().Be(HttpStatusCode.OK);
+        data.Should().BeEquivalentTo(customer);
     }
 
     [Fact]
