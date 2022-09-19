@@ -1,5 +1,4 @@
-*Antes de tudo, vamos configurar o projeto:**
- 
+
 ## Configurando o `CustomerController`
 
 <details>
