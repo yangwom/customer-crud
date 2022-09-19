@@ -270,6 +270,4 @@ O seu teste deve conter:
   
 </details>
 
----
 
-Parabéns, agora você é capaz de configurar os constrollers em um CRUD básico usando o ASP.NET! Agora podemos entrar de cabeça nas outras camadas das APIs configuradas no .NET para eventualmente montar a aplicação de ponta a ponta! 🚀
