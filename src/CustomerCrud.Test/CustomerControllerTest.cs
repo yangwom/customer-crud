@@ -49,7 +49,15 @@ public class CustomersControllerTest : IClassFixture<WebApplicationFactory<Progr
     [Fact]
     public async Task CreateTest()
     {
-        throw new NotImplementedException();
+        var customer = AutoFaker.Generate<CustomerRequest>();
+        _repositoryMock.Setup(c => c.Create(null)).Returns(true);
+        _repositoryMock.Setup(c => c.GetNextIdValue()).Returns(1);
+
+        var response = await _client.PostAsJsonAsync("/controller", customer);
+        var data = await response.Content.ReadFromJsonAsync<Customer>();
+
+        response.StatusCode.Should().Be(HttpStatusCode.Created);
+        data.Should().BeEquivalentTo(customer);
     }
 
     [Fact]

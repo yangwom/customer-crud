@@ -21,8 +21,7 @@ public class CustomerController : ControllerBase
         return Ok(_customerRepository?.GetAll());
     }
 
-    [HttpGet]
-    [Route("{id}")]
+    [HttpGet("{id}", Name = "GetById")]
 
     public ActionResult GetById(int id)
     {
@@ -34,5 +33,18 @@ public class CustomerController : ControllerBase
         }
 
         return Ok(DataCustomer);
+    }
+
+    [HttpPost]
+    public ActionResult Create(CustomerRequest customer)
+    {
+        var Created = new Customer(_customerRepository!.GetNextIdValue(), customer);
+        var DataCustomer = _customerRepository.Create(Created);
+         if(!DataCustomer)
+         {
+            BadRequest("bad requst");
+         }
+
+        return CreatedAtAction("GetById", new { id = Created.Id }, customer);
     }
 }
