@@ -54,7 +54,7 @@ public class CustomerController : ControllerBase
 
     public ActionResult Update(int id, CustomerRequest customer)
     {
-     var created = _customerRepository.Update(id, new Customer()
+     var created = _customerRepository!.Update(id, new Customer()
     {
       Name = customer.Name,
       CPF = customer.CPF,
@@ -69,7 +69,19 @@ public class CustomerController : ControllerBase
 
      return Ok($"Customer {id} updated");
     }
-    
+     [HttpDelete("{id}")]
+
+     public ActionResult Delete(int id)
+     {
+      var customer = _customerRepository!.Delete(id);
+
+       if(!customer)
+       {
+        return NotFound("Customer not found");
+       }
+
+      return NoContent();
+     }
 
     }
 

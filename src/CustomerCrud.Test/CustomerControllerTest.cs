@@ -76,6 +76,12 @@ public class CustomersControllerTest : IClassFixture<WebApplicationFactory<Progr
     [Fact]
     public async Task DeleteTest()
     {
-        throw new NotImplementedException();
+    _repositoryMock.Setup(c => c.Delete(It.IsAny<int>())).Returns(true);
+
+    var response = await _client.DeleteAsync("/controller/1");
+
+    response.StatusCode.Should().Be(HttpStatusCode.NoContent);
+
+    _repositoryMock.Verify(c => c.Delete(It.IsAny<int>()), Times.Once);
     }
 }
