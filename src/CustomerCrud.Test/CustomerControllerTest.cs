@@ -63,7 +63,14 @@ public class CustomersControllerTest : IClassFixture<WebApplicationFactory<Progr
     [Fact]
     public async Task UpdateTest()
     {
-        throw new NotImplementedException();
+    var customerRequest = AutoFaker.Generate<CustomerRequest>();
+    _repositoryMock.Setup(c => c.Update(1, It.IsAny<Customer>())).Returns(true);
+
+    var response = await _client.PutAsJsonAsync("/controller/1", customerRequest);
+    var content = await response.Content.ReadAsStringAsync();
+
+    response.StatusCode.Should().Be(HttpStatusCode.OK);
+    content.Should().Be("Customer 1 updated");
     }
 
     [Fact]

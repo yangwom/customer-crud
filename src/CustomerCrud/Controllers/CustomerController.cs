@@ -27,7 +27,7 @@ public class CustomerController : ControllerBase
     {
         var DataCustomer = _customerRepository?.GetById(id);
 
-        if(DataCustomer == null)
+        if (DataCustomer == null)
         {
             return NotFound("Not fount");
         }
@@ -40,11 +40,36 @@ public class CustomerController : ControllerBase
     {
         var Created = new Customer(_customerRepository!.GetNextIdValue(), customer);
         var DataCustomer = _customerRepository.Create(Created);
-         if(!DataCustomer)
-         {
+        if (!DataCustomer)
+        {
             BadRequest("bad requst");
-         }
+        }
 
         return CreatedAtAction("GetById", new { id = Created.Id }, customer);
+
+
     }
-}
+
+    [HttpPut("{id}")]
+
+    public ActionResult Update(int id, CustomerRequest customer)
+    {
+     var created = _customerRepository.Update(id, new Customer()
+    {
+      Name = customer.Name,
+      CPF = customer.CPF,
+      Transactions = customer.Transactions,
+      UpdatedAt = DateTime.Now
+    });
+
+     if(!created)
+     {
+        return NotFound("Customer not found");
+     }
+
+     return Ok($"Customer {id} updated");
+    }
+    
+
+    }
+
